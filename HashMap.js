@@ -3,18 +3,18 @@
 // }
 
 export default function HashMap() {
-  let loadFactor;
-  let capacity;
-}
+  let loadFactor = 0.75;
+  let capacity = 16;
 
-//hash(key) takes a key and produces a hash code with it
-function hash(key) {
-  let hashCode = 0;
+  //hash(key) takes a key and produces a hash code with it
+  function hash(key) {
+    let hashCode = 0;
+    const primeNumber = 31;
 
-  const primeNumber = 31;
-  for (let i = 0; i < key.length; i++) {
-    hashCode = primeNumber * hashCode + key.charCodeAt(i);
+    for (let i = 0; i < key.length; i++) {
+      hashCode = (primeNumber * hashCode + key.charCodeAt(i)) % capacity;
+    }
+
+    return hashCode;
   }
-
-  return hashCode;
 }
