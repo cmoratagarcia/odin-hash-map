@@ -3,7 +3,17 @@
 // }
 
 function HashMap(capacity = 16) {
+  let size = 0;
   let loadFactor = 0.75;
+
+  function Node(key, value) {
+    return {
+      key,
+      value,
+      next: null,
+    };
+  }
+
   // Initialize each bucket as an empty array to handle collisions
   let buckets = new Array(capacity).fill().map(() => []);
 
@@ -116,7 +126,7 @@ function HashMap(capacity = 16) {
     }
     return entriesArray;
   }
-  
+
   return {
     set,
     get,
