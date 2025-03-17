@@ -105,7 +105,30 @@ function HashMap(capacity = 16) {
     return valuesArray;
   }
 
-  return { set, get, has, remove, length, clear, keys, values, buckets };
+  //entries() returns an array that contains each key, value pair.
+  function entries() {
+    let entriesArray = [];
+    for (let i = 0; i < buckets.length; i++) {
+      let bucket = buckets[i];
+      for (let j = 0; j < bucket.length; j++) {
+        entriesArray.push([bucket[j].key, bucket[j].value]);
+      }
+    }
+    return entriesArray;
+  }
+  
+  return {
+    set,
+    get,
+    has,
+    remove,
+    length,
+    clear,
+    keys,
+    values,
+    entries,
+    buckets,
+  };
 }
 let map = new HashMap();
 map.set("apple", "red");
@@ -113,4 +136,4 @@ map.set("orange", "orange");
 map.set("pineapple", "yellow");
 console.log(map.buckets);
 console.log(map.keys());
-console.log(map.values());
+console.log(map.entries());
