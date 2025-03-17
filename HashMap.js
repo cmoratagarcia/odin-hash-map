@@ -49,7 +49,7 @@ function HashMap(capacity = 16) {
   }
   // has(key) takes a key as an argument and returns true or false
   function has(key) {
-    return get(key) === null ? false : true;
+    return get(key) !== null;
   }
 
   return { set, get, has, buckets };
@@ -58,4 +58,5 @@ let map = new HashMap();
 map.set("apple", "red");
 map.set("orange", "orange");
 map.set("pineapple", "yellow");
-console.log(map.buckets);
+console.log(map.has("pineapple"));
+console.log(map.has("banana"));
