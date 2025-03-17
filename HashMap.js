@@ -151,7 +151,7 @@ export default function HashMap(capacity = 16) {
     for (let i = 0; i < buckets.length; i++) {
       let current = buckets[i];
       while (current) {
-        keysArray.push(current.value);
+        valuesArray.push(current.value);
         current = current.next;
       }
     }
@@ -164,7 +164,7 @@ export default function HashMap(capacity = 16) {
     for (let i = 0; i < buckets.length; i++) {
       let current = buckets[i];
       while (current) {
-        entriesArray.push(current.key, current.value);
+        entriesArray.push([current.key, current.value]);
         current = current.next;
       }
     }
