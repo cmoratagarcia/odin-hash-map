@@ -45,19 +45,6 @@ function HashMap(capacity = 16) {
     }
   }
 
-  // // Helper function to find entry index in a bucket
-  // function findEntry(key) {
-  //   const index = hash(key);
-  //   const bucket = buckets[index];
-
-  //   for (let i = 0; i < bucket.length; i++) {
-  //     if (bucket[i].key === key) {
-  //       return { bucketIndex: index, entryIndex: i };
-  //     }
-  //   }
-  //   return null;
-  // }
-
   //takes two arguments: the first is a key, and the second is a value that is assigned to this key. If a key already exists, then the old value is overwritten.
   function set(key, value) {
     if (size / capacity >= loadFactor) {
@@ -98,8 +85,17 @@ function HashMap(capacity = 16) {
 
   // takes one argument as a key and returns the value
   function get(key) {
-    const found = findEntry(key);
-    return found ? buckets[found.bucketIndex][found.entryIndex].value : null;
+    const index = hash(key);
+    let current = buckets[index];
+
+    while (current) {
+      if (current.key === key) {
+        return current.value;
+      }
+      current = current.next;
+    }
+
+    return null;
   }
 
   // has(key) takes a key as an argument and returns true or false
