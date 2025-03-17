@@ -130,11 +130,7 @@ function HashMap(capacity = 16) {
 
   // length() returns the number of stored keys in the hash map.
   function length() {
-    let total = 0;
-    for (let i = 0; i < buckets.length; i++) {
-      total += buckets[i].length;
-    }
-    return total;
+    return size;
   }
 
   //clear() removes all entries in the hash map.
