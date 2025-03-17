@@ -19,34 +19,37 @@ function HashMap(capacity = 16) {
     return hashCode;
   }
 
-  //takes two arguments: the first is a key, and the second is a value that is assigned to this key. If a key already exists, then the old value is overwritten.
-  function set(key, value) {
-    let index = hash(key);
-    const bucket = buckets[index];
-    // Check if key already exists
-    for (let i = 0; i < bucket.length; i++) {
-      if (bucket[i].key === key) {
-        bucket[i].value = value; // Update existing value
-        return;
-      }
-    }
-    // If key wasn't found, add new entry
-    bucket.push({ key, value });
-  }
-
-  // takes one argument as a key and returns the value
-  function get(key) {
-    let index = hash(key);
+  // Helper function to find entry index in a bucket
+  function findEntry(key) {
+    const index = hash(key);
     const bucket = buckets[index];
 
-    // Search for key using for loop
     for (let i = 0; i < bucket.length; i++) {
       if (bucket[i].key === key) {
-        return bucket[i].value;
+        return { bucketIndex: index, entryIndex: i };
       }
     }
     return null;
   }
+
+  //takes two arguments: the first is a key, and the second is a value that is assigned to this key. If a key already exists, then the old value is overwritten.
+  function set(key, value) {
+    const found = findEntry(key);
+    //Update value if found
+    if (found) {
+      buckets[found.bucketIndex][found.entryIndex].value = value;
+    } else {
+      //If key wasn't found, add new entry
+      const index = hash(key);
+      buckets[index].push({ key, value });
+    }
+  }
+  // takes one argument as a key and returns the value
+  function get(key) {
+    const found = findEntry(key);
+    return found ? buckets[found.bucketIndex][found.entryIndex].value : null;
+  }
+
   // has(key) takes a key as an argument and returns true or false
   function has(key) {
     return get(key) !== null;
@@ -54,17 +57,13 @@ function HashMap(capacity = 16) {
 
   //remove(key) takes a key as an argument and removes the entry or returns false.
   function remove(key) {
-    if (has(key)) {
-      let index = hash(key);
-      const bucket = buckets[index];
-      for (let i = 0; i < bucket.length; i++) {
-        if (bucket[i].key === key) {
-          bucket.splice(i, 1);
-        }
-      }
-    } else {
-      return false;
+    const found = findEntry(key);
+
+    if (found) {
+      buckets[found.bucketIndex].splice(found.entryIndex, 1);
+      return true;
     }
+    return false;
   }
 
   return { set, get, has, remove, buckets };
