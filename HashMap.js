@@ -1,8 +1,4 @@
-// if (index < 0 || index >= buckets.length) {
-//   throw new Error("Trying to access index out of bounds");
-// }
-
-function HashMap(capacity = 16) {
+export default function HashMap(capacity = 16) {
   let size = 0;
   let loadFactor = 0.75;
   let buckets = new Array(capacity).fill(null); // Initialize buckets with null
@@ -15,9 +11,7 @@ function HashMap(capacity = 16) {
     };
   }
 
-  // Initialize each bucket as an empty array to handle collisions
-
-  //hash(key) takes a key and produces a hash code with it
+  //Takes a key and produces a hash code with it
   function hash(key) {
     let hashCode = 0;
     const primeNumber = 31;
@@ -28,7 +22,7 @@ function HashMap(capacity = 16) {
 
     return hashCode;
   }
-
+  //Double the capacity
   function grow() {
     const oldBuckets = buckets;
     capacity *= 2;
@@ -45,10 +39,10 @@ function HashMap(capacity = 16) {
     }
   }
 
-  //takes two arguments: the first is a key, and the second is a value that is assigned to this key. If a key already exists, then the old value is overwritten.
+  //Takes two arguments: the first is a key, and the second is a value that is assigned to this key. If a key already exists, then the old value is overwritten.
   function set(key, value) {
     if (size / capacity >= loadFactor) {
-      grow();
+      grow(); //Grow when load factor is reached
     }
 
     const index = hash(key);
@@ -83,7 +77,7 @@ function HashMap(capacity = 16) {
     size++;
   }
 
-  // takes one argument as a key and returns the value
+  // Takes a key as and argument and returns the value
   function get(key) {
     const index = hash(key);
     let current = buckets[index];
@@ -98,12 +92,12 @@ function HashMap(capacity = 16) {
     return null;
   }
 
-  // has(key) takes a key as an argument and returns true or false
+  // Takes a key as an argument and returns true or false
   function has(key) {
     return get(key) !== null;
   }
 
-  //remove(key) takes a key as an argument and removes the entry or returns false.
+  // Takes a key as an argument and removes the entry or returns false
   function remove(key) {
     const index = hash(key);
     let current = buckets[index];
@@ -128,18 +122,18 @@ function HashMap(capacity = 16) {
     return false;
   }
 
-  // length() returns the number of stored keys in the hash map.
+  // Returns the number of stored keys in the hash map
   function length() {
     return size;
   }
 
-  //clear() removes all entries in the hash map.
+  // Removes all entries in the hash map
   function clear() {
     buckets = new Array(capacity).fill(null);
     size = 0;
   }
 
-  //keys() returns an array containing all the keys inside the hash map.
+  // Returns an array containing all the keys inside the hash map
   function keys() {
     let keysArray = [];
     for (let i = 0; i < buckets.length; i++) {
@@ -151,7 +145,7 @@ function HashMap(capacity = 16) {
     }
     return keysArray;
   }
-  //values() returns an array containing all the values.
+  // Returns an array containing all the values
   function values() {
     let valuesArray = [];
     for (let i = 0; i < buckets.length; i++) {
@@ -164,7 +158,7 @@ function HashMap(capacity = 16) {
     return valuesArray;
   }
 
-  //entries() returns an array that contains each key, value pair.
+  // Returns an array that contains each key, value pair
   function entries() {
     let entriesArray = [];
     for (let i = 0; i < buckets.length; i++) {
@@ -189,10 +183,3 @@ function HashMap(capacity = 16) {
     entries,
   };
 }
-let map = new HashMap();
-map.set("apple", "red");
-map.set("orange", "orange");
-map.set("pineapple", "yellow");
-console.log(map.buckets);
-console.log(map.keys());
-console.log(map.entries());
