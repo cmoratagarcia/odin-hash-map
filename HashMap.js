@@ -4,7 +4,8 @@
 
 function HashMap(capacity = 16) {
   let loadFactor = 0.75;
-  let buckets = new Array(capacity);
+  // Initialize each bucket as an empty array to handle collisions
+  let buckets = new Array(capacity).fill().map(() => []);
 
   //hash(key) takes a key and produces a hash code with it
   function hash(key) {
@@ -40,5 +41,5 @@ function HashMap(capacity = 16) {
 let map = new HashMap();
 map.set("apple", "red");
 map.set("orange", "orange");
-map.set("banana", "yellow");
-console.log(map.has("apple"));
+map.set("pineapple", "yellow");
+console.log(map.buckets);
