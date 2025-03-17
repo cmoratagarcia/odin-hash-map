@@ -143,10 +143,10 @@ function HashMap(capacity = 16) {
   function keys() {
     let keysArray = [];
     for (let i = 0; i < buckets.length; i++) {
-      let bucket = buckets[i];
-      for (let j = 0; j < bucket.length; j++) {
-        keysArray.push(bucket[j].key);
-        bucket = bucket.next;
+      let current = buckets[i];
+      while (current) {
+        keysArray.push(current.key);
+        current = current.next;
       }
     }
     return keysArray;
@@ -155,9 +155,10 @@ function HashMap(capacity = 16) {
   function values() {
     let valuesArray = [];
     for (let i = 0; i < buckets.length; i++) {
-      let bucket = buckets[i];
-      for (let j = 0; j < bucket.length; j++) {
-        valuesArray.push(bucket[j].value);
+      let current = buckets[i];
+      while (current) {
+        keysArray.push(current.value);
+        current = current.next;
       }
     }
     return valuesArray;
