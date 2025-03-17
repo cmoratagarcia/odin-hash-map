@@ -105,12 +105,26 @@ function HashMap(capacity = 16) {
 
   //remove(key) takes a key as an argument and removes the entry or returns false.
   function remove(key) {
-    const found = findEntry(key);
+    const index = hash(key);
+    let current = buckets[index];
 
-    if (found) {
-      buckets[found.bucketIndex].splice(found.entryIndex, 1);
+    // If key is at head of list
+    if (current && current.key === key) {
+      buckets[index] = current.next;
+      size--;
       return true;
     }
+
+    // Check rest of list
+    while (current && current.next) {
+      if (current.next.key === key) {
+        current.next = current.next.next;
+        size--;
+        return true;
+      }
+      current = current.next;
+    }
+
     return false;
   }
 
