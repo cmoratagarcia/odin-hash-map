@@ -18,9 +18,8 @@ function HashMap(capacity = 16) {
     return hashCode;
   }
 
-  //takes two arguments: the first is a key, and the second is a value that is assigned to this key.
+  //takes two arguments: the first is a key, and the second is a value that is assigned to this key. If a key already exists, then the old value is overwritten.
   function set(key, value) {
-    // If a key already exists, then the old value is overwritten.
     let index = hash(key);
     buckets[index] = value;
   }
@@ -31,9 +30,15 @@ function HashMap(capacity = 16) {
     return buckets[index] || null;
   }
 
-  return { set, get, buckets };
+  // has(key) takes a key as an argument and returns true or false
+  function has(key) {
+    return get(key) === null ? false : true;
+  }
+
+  return { set, get, has, buckets };
 }
 let map = new HashMap();
 map.set("apple", "red");
-map.set("carrot", "orange");
-console.log(map.get("banana"));
+map.set("orange", "orange");
+map.set("banana", "yellow");
+console.log(map.has("apple"));
