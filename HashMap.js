@@ -52,11 +52,27 @@ function HashMap(capacity = 16) {
     return get(key) !== null;
   }
 
-  return { set, get, has, buckets };
+  //remove(key) takes a key as an argument and removes the entry or returns false.
+  function remove(key) {
+    if (has(key)) {
+      let index = hash(key);
+      const bucket = buckets[index];
+      for (let i = 0; i < bucket.length; i++) {
+        if (bucket[i].key === key) {
+          bucket.splice(i, 1);
+        }
+      }
+    } else {
+      return false;
+    }
+  }
+
+  return { set, get, has, remove, buckets };
 }
 let map = new HashMap();
 map.set("apple", "red");
 map.set("orange", "orange");
 map.set("pineapple", "yellow");
-console.log(map.has("pineapple"));
-console.log(map.has("banana"));
+console.log(map.buckets);
+map.remove("apple");
+console.log(map.buckets);
