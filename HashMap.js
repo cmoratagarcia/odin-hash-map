@@ -168,9 +168,10 @@ function HashMap(capacity = 16) {
   function entries() {
     let entriesArray = [];
     for (let i = 0; i < buckets.length; i++) {
-      let bucket = buckets[i];
-      for (let j = 0; j < bucket.length; j++) {
-        entriesArray.push([bucket[j].key, bucket[j].value]);
+      let current = buckets[i];
+      while (current) {
+        entriesArray.push(current.key, current.value);
+        current = current.next;
       }
     }
     return entriesArray;
@@ -186,7 +187,6 @@ function HashMap(capacity = 16) {
     keys,
     values,
     entries,
-    buckets,
   };
 }
 let map = new HashMap();
