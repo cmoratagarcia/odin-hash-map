@@ -135,9 +135,8 @@ function HashMap(capacity = 16) {
 
   //clear() removes all entries in the hash map.
   function clear() {
-    for (let i = 0; i < buckets.length; i++) {
-      buckets[i] = [];
-    }
+    buckets = new Array(capacity).fill(null);
+    size = 0;
   }
 
   //keys() returns an array containing all the keys inside the hash map.
@@ -147,6 +146,7 @@ function HashMap(capacity = 16) {
       let bucket = buckets[i];
       for (let j = 0; j < bucket.length; j++) {
         keysArray.push(bucket[j].key);
+        bucket = bucket.next;
       }
     }
     return keysArray;
