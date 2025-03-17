@@ -81,12 +81,25 @@ function HashMap(capacity = 16) {
       buckets[i] = [];
     }
   }
-  return { set, get, has, remove, length, clear, buckets };
+
+  //keys() returns an array containing all the keys inside the hash map.
+  function keys() {
+    let keysArray = [];
+    for (let i = 0; i < buckets.length; i++) {
+      let bucket = buckets[i];
+      for (let j = 0; j < bucket.length; j++) {
+        keysArray.push(bucket[j].key);
+      }
+    }
+    return keysArray;
+  }
+  //values() returns an array containing all the values.
+
+  return { set, get, has, remove, length, clear, keys, buckets };
 }
 let map = new HashMap();
 map.set("apple", "red");
 map.set("orange", "orange");
 map.set("pineapple", "yellow");
 console.log(map.buckets);
-map.clear();
-console.log(map.buckets);
+console.log(map.keys());
