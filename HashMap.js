@@ -5,6 +5,7 @@
 function HashMap(capacity = 16) {
   let size = 0;
   let loadFactor = 0.75;
+  let buckets = new Array(capacity).fill(null); // Initialize buckets with null
 
   function Node(key, value) {
     return {
@@ -15,7 +16,6 @@ function HashMap(capacity = 16) {
   }
 
   // Initialize each bucket as an empty array to handle collisions
-  let buckets = new Array(capacity).fill().map(() => []);
 
   //hash(key) takes a key and produces a hash code with it
   function hash(key) {
@@ -27,6 +27,22 @@ function HashMap(capacity = 16) {
     }
 
     return hashCode;
+  }
+
+  function grow() {
+    const oldBuckets = buckets;
+    capacity *= 2;
+    buckets = new Array(capacity).fill(null);
+    size = 0;
+
+    // Rehash all existing entries
+    for (let i = 0; i < oldBuckets.length; i++) {
+      let current = oldBuckets[i];
+      while (current) {
+        set(current.key, current.value);
+        current = current.next;
+      }
+    }
   }
 
   // Helper function to find entry index in a bucket
