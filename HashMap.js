@@ -45,31 +45,57 @@ function HashMap(capacity = 16) {
     }
   }
 
-  // Helper function to find entry index in a bucket
-  function findEntry(key) {
-    const index = hash(key);
-    const bucket = buckets[index];
+  // // Helper function to find entry index in a bucket
+  // function findEntry(key) {
+  //   const index = hash(key);
+  //   const bucket = buckets[index];
 
-    for (let i = 0; i < bucket.length; i++) {
-      if (bucket[i].key === key) {
-        return { bucketIndex: index, entryIndex: i };
-      }
-    }
-    return null;
-  }
+  //   for (let i = 0; i < bucket.length; i++) {
+  //     if (bucket[i].key === key) {
+  //       return { bucketIndex: index, entryIndex: i };
+  //     }
+  //   }
+  //   return null;
+  // }
 
   //takes two arguments: the first is a key, and the second is a value that is assigned to this key. If a key already exists, then the old value is overwritten.
   function set(key, value) {
-    const found = findEntry(key);
-    //Update value if found
-    if (found) {
-      buckets[found.bucketIndex][found.entryIndex].value = value;
-    } else {
-      //If key wasn't found, add new entry
-      const index = hash(key);
-      buckets[index].push({ key, value });
+    if (size / capacity >= loadFactor) {
+      grow();
     }
+
+    const index = hash(key);
+    const newNode = Node(key, value);
+
+    // If bucket is empty
+    if (!buckets[index]) {
+      buckets[index] = newNode;
+      size++;
+      return;
+    }
+
+    let current = buckets[index];
+
+    // If key exists, update value
+    if (current.key === key) {
+      current.value = value;
+      return;
+    }
+
+    // Check the rest of the linked list
+    while (current.next) {
+      if (current.next.key === key) {
+        current.next.value = value;
+        return;
+      }
+      current = current.next;
+    }
+
+    // Add new node to end of list
+    current.next = newNode;
+    size++;
   }
+
   // takes one argument as a key and returns the value
   function get(key) {
     const found = findEntry(key);
