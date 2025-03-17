@@ -22,7 +22,16 @@ function HashMap(capacity = 16) {
   //takes two arguments: the first is a key, and the second is a value that is assigned to this key. If a key already exists, then the old value is overwritten.
   function set(key, value) {
     let index = hash(key);
-    buckets[index] = value;
+    const bucket = buckets[index];
+    // Check if key already exists
+    for (let i = 0; i < bucket.length; i++) {
+      if (bucket[i].key === key) {
+        bucket[i].value = value; // Update existing value
+        return;
+      }
+    }
+    // If key wasn't found, add new entry
+    bucket.push({ key, value });
   }
 
   // takes one argument as a key and returns the value
