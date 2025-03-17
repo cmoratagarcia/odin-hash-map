@@ -77,9 +77,10 @@ function HashMap(capacity = 16) {
 
   //clear() removes all entries in the hash map.
   function clear() {
-    buckets = new Array(capacity).fill().map(() => []);
+    for (let i = 0; i < buckets.length; i++) {
+      buckets[i] = [];
+    }
   }
-
   return { set, get, has, remove, length, clear, buckets };
 }
 let map = new HashMap();
