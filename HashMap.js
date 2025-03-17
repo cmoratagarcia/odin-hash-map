@@ -66,12 +66,20 @@ function HashMap(capacity = 16) {
     return false;
   }
 
-  return { set, get, has, remove, buckets };
+  // length() returns the number of stored keys in the hash map.
+  function length() {
+    let total = 0;
+    for (let i = 0; i < buckets.length; i++) {
+      total += buckets[i].length;
+    }
+    return total;
+  }
+
+  return { set, get, has, remove, length, buckets };
 }
 let map = new HashMap();
 map.set("apple", "red");
 map.set("orange", "orange");
 map.set("pineapple", "yellow");
-console.log(map.buckets);
-map.remove("apple");
-console.log(map.buckets);
+console.log(map.buckets[10].key);
+console.log(map.length());
