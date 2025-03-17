@@ -37,9 +37,16 @@ function HashMap(capacity = 16) {
   // takes one argument as a key and returns the value
   function get(key) {
     let index = hash(key);
-    return buckets[index] || null;
-  }
+    const bucket = buckets[index];
 
+    // Search for key using for loop
+    for (let i = 0; i < bucket.length; i++) {
+      if (bucket[i].key === key) {
+        return bucket[i].value;
+      }
+    }
+    return null;
+  }
   // has(key) takes a key as an argument and returns true or false
   function has(key) {
     return get(key) === null ? false : true;
