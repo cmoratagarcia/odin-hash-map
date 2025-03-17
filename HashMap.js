@@ -75,11 +75,17 @@ function HashMap(capacity = 16) {
     return total;
   }
 
-  return { set, get, has, remove, length, buckets };
+  //clear() removes all entries in the hash map.
+  function clear() {
+    buckets = new Array(capacity).fill().map(() => []);
+  }
+
+  return { set, get, has, remove, length, clear, buckets };
 }
 let map = new HashMap();
 map.set("apple", "red");
 map.set("orange", "orange");
 map.set("pineapple", "yellow");
-console.log(map.buckets[10].key);
-console.log(map.length());
+console.log(map.buckets);
+map.clear();
+console.log(map.buckets);
